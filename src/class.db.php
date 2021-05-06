@@ -1,4 +1,7 @@
 <?php
+
+include 'dbConnection.php';
+
 class Db
 {
     /** @var \PDO */
@@ -25,16 +28,16 @@ class Db
 
     private function getConnection()
     {
-        $host = DB_HOST;
-        $dbName = DB_NAME;
-        $dbUser = DB_USERNAME;
-        $dbPassword = DB_PASSWORD;
-
-        if (!$this->pdo) {
-            $this->pdo = new \PDO("mysql:host=$host;dbname=$dbName", $dbUser, $dbPassword);
-        }
-
-        return $this->pdo;
+//        $host = DB_HOST;
+//        $dbName = DB_NAME;
+//        $dbUser = DB_USERNAME;
+//        $dbPassword = DB_PASSWORD;
+//
+//        if (!$this->pdo) {
+//            $this->pdo = new \PDO("mysql:host=$host;dbname=$dbName", $dbUser, $dbPassword);
+//        }
+//
+//        return $this->pdo;
     }
 
     public function fetchAll(string $query, $_method, array $params = [])

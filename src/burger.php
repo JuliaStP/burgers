@@ -1,18 +1,21 @@
 <?php
+
+include 'dbConnection.php';
+
 class Burger
 {
     public function getUserByEmail(string $email)
     {
-        $db = Db::getInstance();
         $query = "SELECT * FROM `users` WHERE email = :email";
-        return $db->fetchOne($query, __METHOD__, [':email' => $email]);
+        $res = getConnection()->query($query);
+        return $res->fetchOne($query, __METHOD__, [':email' => $email]);
     }
 
     public function createUser(string $email, string $name, string $phone)
     {
-        $db = Db::getInstance();
+//        $db = Db::getInstance();
         $query = "INSERT INTO `users` (email, `name`, phone) VALUES (:email, :name, :phone)";
-        $result = $db->exec($query, __METHOD__, [
+        $result = getConnection()->exec($query, __METHOD__, [
             ':email' => $email,
             ':name' => $name,
             ':phone' => $phone
@@ -21,14 +24,14 @@ class Burger
             return false;
         }
 
-        return $db->lastInsertId();
+        return $result;
     }
 
     public function createOrder(int $userId, string $street, int $house, int $corp, int $apt, int $floor)
     {
-        $db = Db::getInstance();
+//        $db = Db::getInstance();
         $query = "INSERT INTO `order-form` (user_id, street, house, corp, apt, floor, created_at) VALUES (:user_id, :street, :house, :corp, :apt, :floor, :created_at)";
-        $result = $db->exec(
+        $result = getConnection()->exec(
             $query,
             __METHOD__,
             [
@@ -45,13 +48,13 @@ class Burger
         if (!$result) {
             return false;
         }
-        return $db->lastInsertId();
+        return $result;
     }
 
     public function addOrder(int $userId)
     {
-        $db = Db::getInstance();
+//        $db = Db::getInstance();
         $query = "UPDATE `users` SET orders_count = orders_count +1 WHERE id = $userId";
-        return $db->exec($query, __METHOD__);
+        return getConnection()->exec($query, __METHOD__);
     }
 }

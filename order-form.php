@@ -3,6 +3,7 @@
 include 'src/config.php';
 include 'src/class.db.php';
 include 'src/burger.php';
+include 'src/dbConnection.php';
 
 
 ini_set('display_errors', 'on');
