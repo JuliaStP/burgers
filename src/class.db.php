@@ -1,6 +1,6 @@
 <?php
 
-include 'dbConnection.php';
+include_once 'class.burger.php';
 
 class Db
 {
@@ -26,24 +26,10 @@ class Db
         return self::$instance;
     }
 
-    private function getConnection()
-    {
-//        $host = DB_HOST;
-//        $dbName = DB_NAME;
-//        $dbUser = DB_USERNAME;
-//        $dbPassword = DB_PASSWORD;
-//
-//        if (!$this->pdo) {
-//            $this->pdo = new \PDO("mysql:host=$host;dbname=$dbName", $dbUser, $dbPassword);
-//        }
-//
-//        return $this->pdo;
-    }
-
     public function fetchAll(string $query, $_method, array $params = [])
     {
         $t = microtime(true);
-        $prepared = $this->getConnection()->prepare($query);
+        $prepared = $this->pdo->prepare($query);
 
         $ret = $prepared->execute($params);
 
@@ -63,7 +49,7 @@ class Db
     public function fetchOne(string $query, $_method, array $params = [])
     {
         $t = microtime(true);
-        $prepared = $this->getConnection()->prepare($query);
+        $prepared = $this->pdo->prepare($query);
 
         $ret = $prepared->execute($params);
 
@@ -87,7 +73,7 @@ class Db
     public function exec(string $query, $_method, array $params = []): int
     {
         $t = microtime(1);
-        $pdo = $this->getConnection();
+        $pdo = $this->pdo;
         $prepared = $pdo->prepare($query);
 
         $ret = $prepared->execute($params);
@@ -107,7 +93,7 @@ class Db
 
     public function lastInsertId()
     {
-        return $this->getConnection()->lastInsertId();
+        return $this->pdo->lastInsertId();
     }
 
     public function getLogHTML()
@@ -121,6 +107,4 @@ class Db
         }
         return '<pre>' . $res .'</pre>';
     }
-
-
 }

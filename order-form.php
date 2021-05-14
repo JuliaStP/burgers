@@ -1,37 +1,36 @@
 <?php
 
-include 'src/config.php';
-include 'src/class.db.php';
-include 'src/burger.php';
-include 'src/dbConnection.php';
-
+include_once 'src/config.php';
+include_once 'src/class.db.php';
+include_once 'src/class.burger.php';
 
 ini_set('display_errors', 'on');
 ini_set('error_reporting', E_NOTICE | E_ALL);
 
-$burger = new Burger();
+$burgers = new Burger();
+$burgers->run();
 
-$email = $_POST['email'];
-$name = $_POST['name'];
-$phone = $_POST['phone'];
-$street = $_POST['street'];
-$house = $_POST['home'];
-$corp = $_POST['part'];
-$apt = $_POST['appt'];
-$floor = $_POST['floor'];
+$email = (string) $_POST['email'];
+$name = (string) $_POST['name'];
+$phone = (string) $_POST['phone'];
+$street = (string) $_POST['street'];
+$house = (int) $_POST['home'];
+$corp = (int) $_POST['part'];
+$apt = (int) $_POST['appt'];
+$floor = (int) $_POST['floor'];
 
-$user = $burger->getUserByEmail($email);
+$user = $burgers->getUserByEmail($email);
 
 if ($user) {
     $userId = $user['id'];
-    $burger->addOrder($user['id']);
+    $burgers->addOrder($user['id']);
     $orderNumber = $user['orders_count'] + 1;
 } else {
     $orderNumber = 1;
-    $userId = $burger->createUser($email, $name, $phone);
+    $userId = $burgers->createUser($email, $name, $phone);
 }
 
-$orderId = $burger->createOrder($userId, $street, $house, $corp, $apt, $floor);
+$orderId = $burgers->createOrder($userId, $street, $house, $corp, $apt, $floor);
 
 echo "Thank you for your order! It will be delievered to: $street street, $house house, $corp corpus, $apt apartment on $floor floor<br>
 Your order number: #$orderId <br>
